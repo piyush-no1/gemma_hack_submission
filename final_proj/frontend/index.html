@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Video Safety Surveillance Platform</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars-bg"></div>
+    
+    <div class="app-container">
+        <!-- Main Header -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-glow">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h1>Agentic Safety Surveillance</h1>
+                    <p class="subtitle">Multi-Modal AI Pipeline (V-JEPA + Gemma + YOLO + LangGraph)</p>
+                </div>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot online"></span>
+                <span>Surveillance Pipeline Active</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="dashboard-grid">
+            <!-- Left Control Panel -->
+            <section class="panel-left">
+                <!-- Video Upload Card -->
+                <div class="glass-card upload-card">
+                    <h2 class="section-title"><i class="fa-solid fa-cloud-arrow-up"></i> Video Ingestion</h2>
+                    <div class="drop-zone" id="drop-zone">
+                        <i class="fa-solid fa-film upload-icon"></i>
+                        <p class="upload-text">Drag & drop video file or click to browse</p>
+                        <p class="upload-hint">Supports MP4, AVI, MOV, MKV</p>
+                        <input type="file" id="video-file" accept="video/*" class="file-input">
+                    </div>
+
+                    <!-- Video Preview Container -->
+                    <div id="video-preview-container" class="video-preview-container hidden">
+                        <video id="video-player" controls class="video-player"></video>
+                        <div class="video-meta">
+                            <span id="video-meta-name" class="meta-tag"><i class="fa-solid fa-file"></i> name</span>
+                            <span id="video-meta-duration" class="meta-tag"><i class="fa-solid fa-clock"></i> 0.0s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parameters Card -->
+                <div class="glass-card params-card">
+                    <h2 class="section-title"><i class="fa-solid fa-gears"></i> Execution Configuration</h2>
+                    <div class="input-group">
+                        <label for="language-select">Output Language Broadcast</label>
+                        <div class="select-wrapper">
+                            <i class="fa-solid fa-language select-icon"></i>
+                            <select id="language-select">
+                                <option value="en" selected>English (Ava)</option>
+                                <option value="es">Spanish / Español (Elvira)</option>
+                                <option value="hi">Hindi / हिन्दी (Swara)</option>
+                                <option value="fr">French / Français (Denise)</option>
+                                <option value="de">German / Deutsch (Klarissa)</option>
+                                <option value="zh">Chinese / 中文 (Xiaoxiao)</option>
+                                <option value="ja">Japanese / 日本語 (Nanami)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="process-btn" class="glow-btn btn-primary" disabled>
+                        <i class="fa-solid fa-play"></i> Initialize Safety Scan
+                    </button>
+                </div>
+
+                <!-- Live Pipeline Flow Diagram -->
+                <div class="glass-card graph-card">
+                    <h2 class="section-title"><i class="fa-solid fa-diagram-project"></i> Pipeline Graph Flow</h2>
+                    <div class="graph-viewport">
+                        <div class="flow-step" id="node-START">START</div>
+                        
+                        <div class="flow-row">
+                            <div class="flow-step" id="node-run_vjepa">V-JEPA Anomaly</div>
+                            <div class="flow-step" id="node-extract_and_upscale_frames">Frame Extract</div>
+                            <div class="flow-step" id="node-abrupt_motion_detection">Abrupt Motion</div>
+                        </div>
+
+                        <div class="flow-row">
+                            <div class="flow-step invisible"></div>
+                            <div class="flow-row-inner">
+                                <div class="flow-step" id="node-yolo_world">YOLO World</div>
+                                <div class="flow-step" id="node-gemma_transcription">Transcript</div>
+                            </div>
+                            <div class="flow-step invisible"></div>
+                        </div>
+
+                        <div class="flow-step" id="node-orchestrator_judge">Orchestrator Judge</div>
+                        
+                        <div class="flow-row loop-row">
+                            <div class="flow-step" id="node-reasoning_agent"><i class="fa-solid fa-brain"></i> 26B Reasoning</div>
+                            <div class="flow-step" id="node-tool_caller"><i class="fa-solid fa-toolbox"></i> Tool Dispatcher</div>
+                        </div>
+
+                        <div class="flow-step" id="node-gemma_output_module">Safety Report (2B)</div>
+                        <div class="flow-step" id="node-reasoning_to_speech">Voice Broadcast (TTS)</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Results Panel -->
+            <section class="panel-right">
+                <!-- Result Logs Dashboard -->
+                <div class="glass-card console-card">
+                    <h2 class="section-title"><i class="fa-solid fa-terminal"></i> Surveillance Log</h2>
+                    <div id="console-output" class="console-output">
+                        <div class="log-entry system"><i class="fa-solid fa-info"></i> Awaiting video upload to begin analysis...</div>
+                    </div>
+                    <div id="progress-bar-container" class="progress-bar-container hidden">
+                        <div class="progress-info">
+                            <span id="progress-status-text">Processing...</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Alert Broadcast Card -->
+                <div id="broadcast-card" class="glass-card broadcast-card highlight hidden">
+                    <div class="broadcast-header">
+                        <div class="alert-badge"><i class="fa-solid fa-triangle-exclamation"></i> EMERGENCY ALERTS</div>
+                        <div id="severity-badge" class="severity-badge">MEDIUM SEVERITY</div>
+                    </div>
+                    <h3 id="report-summary" class="report-summary">Incident Summary</h3>
+                    <p id="report-explanation" class="report-explanation">Detailed explanation...</p>
+                    
+
+
+                    <div class="recommendations-box">
+                        <strong><i class="fa-solid fa-circle-info"></i> Recommended Actions:</strong>
+                        <p id="report-recommendations"></p>
+                    </div>
+                </div>
+
+                <!-- Telemetry Tabs Details -->
+                <div class="glass-card telemetry-card">
+                    <h2 class="section-title"><i class="fa-solid fa-gauge-high"></i> Perception Telemetry Details</h2>
+                    <div class="telemetry-grid">
+                        <div class="telemetry-item">
+                            <span class="telemetry-label">YOLO Detections</span>
+                            <div id="tel-yolo" class="telemetry-value scrollable-value">-</div>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-label">Optical Crowd State</span>
+                            <div id="tel-crowd" class="telemetry-value">-</div>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-label">Abrupt Motion Contour Areas</span>
+                            <div id="tel-motion" class="telemetry-value scrollable-value">-</div>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-label">OCR Signage Strings</span>
+                            <div id="tel-ocr" class="telemetry-value scrollable-value">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rollout Overlay heatmaps gallery -->
+                <div class="glass-card overlay-gallery-card">
+                    <h2 class="section-title"><i class="fa-solid fa-eye"></i> V-JEPA Spatial Attention Rollouts</h2>
+                    <div id="overlays-placeholder" class="gallery-placeholder">
+                        No attention overlay heatmaps saved yet. Heatmaps are generated automatically on V-JEPA anomaly detections or Judge Rollout queries.
+                    </div>
+                    <div id="overlays-grid" class="overlays-grid hidden"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Script file -->
+    <script src="app.js"></script>
+</body>
+</html>
