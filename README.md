@@ -28,37 +28,35 @@ The entire workflow is implemented using a multi-agent architecture built with L
 
 ## Project Architecture
 
-The following diagram illustrates the overall workflow of the proposed Agentic Multi-Modal Video Safety Surveillance System.
+The following diagram illustrates the complete workflow of the **Agentic Multi-Modal Video Safety Surveillance System**.
 
 <p align="center">
-  <img src="assets/architecture.png" alt="System Architecture" width="900"/>
+  <img src="assets/architecture.jpeg" alt="Project Architecture" width="1000"/>
 </p>
 
 ### Architecture Description
 
-1. The uploaded **video** is processed simultaneously by three parallel modules:
-   - **V-JEPA2** for anomaly detection.
-   - **Frame Detection and Extraction**, followed by:
-     - **YOLO-World** for object detection.
-     - **Gemma 4 12B** for scene transcription.
-   - **Abrupt Motion Detection** for identifying sudden movements.
+The uploaded surveillance video is processed through three parallel perception modules:
 
-2. The outputs from all perception modules are sent to the **Orchestrator Agent (Gemma 4 4B)**.
+- **V-JEPA2** performs anomaly detection by identifying unusual events in the video.
+- **Frame Detection and Extraction** selects important frames, which are then analyzed by:
+  - **YOLO-World** for predefined object detection.
+  - **Gemma 4 12B** for detailed scene transcription.
+- **Abrupt Motion Detection** identifies sudden movements and unusual motion patterns.
 
-3. The Orchestrator determines whether the available information is sufficient to generate a report.
-   - If additional reasoning is required, it invokes the **Gemma 4 26B Reasoning Agent**.
-   - If more evidence is needed, it uses the **Tool Caller** to execute specialized tools.
+The outputs from all these modules are combined and sent to the **Orchestrator Agent (Gemma 4 4B)**.
 
-4. The Tool Caller can dynamically invoke:
-   - Hybrid RAG
-   - Dynamic YOLO-World
-   - OCR
-   - Crowd Analysis
-   - Attention Rollout
+The Orchestrator evaluates whether enough information has been collected to understand the incident.
 
-5. Once enough information has been collected, the results are passed to the **Gemma Output Module**, which generates the final multilingual incident report.
----
+- If additional reasoning is required, it invokes the **Gemma 4 26B Reasoning Agent**.
+- If more visual evidence is needed, it uses the **Tool Caller** to execute specialized tools such as:
+  - Hybrid RAG
+  - Dynamic YOLO-World
+  - OCR
+  - Crowd Analysis
+  - Attention Rollout
 
+After collecting all the required evidence, the system generates the final multilingual incident report through the **Gemma Output Module**.
 ## Workflow
 
 1. User uploads a surveillance video.
