@@ -204,6 +204,9 @@ Open the application in your browser.
 ## Contributors
 
 - **Piyush Kumar Verma**
+- **Mayank Verma**
+- **Sidharth Bharti**
+- **Shahzeb Ali**
 
 ---
 
