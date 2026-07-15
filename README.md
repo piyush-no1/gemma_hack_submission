@@ -28,34 +28,35 @@ The entire workflow is implemented using a multi-agent architecture built with L
 
 ## Project Architecture
 
-```
-                Video Upload
-                      │
-                      ▼
-          Parallel Video Processing
-        ┌─────────┬─────────┬─────────┐
-        │         │         │
-        ▼         ▼         ▼
-    V-JEPA2   YOLO-World   Gemma Vision
-        │         │         │
-        └─────────┴─────────┘
-                  │
-                  ▼
-         Abrupt Motion Detection
-                  │
-                  ▼
-      Orchestrator Agent (Gemma 4 4B)
-                  │
-        ┌─────────┴─────────┐
-        │                   │
-        ▼                   ▼
- Reasoning Agent      Tool Calling
-  (Gemma 4 26B)
-        │
-        ▼
- Incident Report Generation
-```
+The following diagram illustrates the overall workflow of the proposed Agentic Multi-Modal Video Safety Surveillance System.
 
+<p align="center">
+  <img src="assets/architecture.png" alt="System Architecture" width="900"/>
+</p>
+
+### Architecture Description
+
+1. The uploaded **video** is processed simultaneously by three parallel modules:
+   - **V-JEPA2** for anomaly detection.
+   - **Frame Detection and Extraction**, followed by:
+     - **YOLO-World** for object detection.
+     - **Gemma 4 12B** for scene transcription.
+   - **Abrupt Motion Detection** for identifying sudden movements.
+
+2. The outputs from all perception modules are sent to the **Orchestrator Agent (Gemma 4 4B)**.
+
+3. The Orchestrator determines whether the available information is sufficient to generate a report.
+   - If additional reasoning is required, it invokes the **Gemma 4 26B Reasoning Agent**.
+   - If more evidence is needed, it uses the **Tool Caller** to execute specialized tools.
+
+4. The Tool Caller can dynamically invoke:
+   - Hybrid RAG
+   - Dynamic YOLO-World
+   - OCR
+   - Crowd Analysis
+   - Attention Rollout
+
+5. Once enough information has been collected, the results are passed to the **Gemma Output Module**, which generates the final multilingual incident report.
 ---
 
 ## Workflow
